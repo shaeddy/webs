@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #222;
+    }
+
+    .music-player {
+      text-align: center;
+      background-color: #333;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .controls button {
+      margin: 10px;
+      background-color: #444;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .controls button:hover {
+      background-color: #555;
+    }
+  </style>
+  <title>Simple Music Player</title>
+</head>
+<body>
+  <div class="music-player">
+    <audio id="audio-player" controls>
+      <source src="music/song1.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <div class="controls">
+      <button id="prev-btn">PREV</button>
+      <button id="next-btn">NEXT</button>
+    </div>
+  </div>
+  <script>
+    const audioPlayer = document.getElementById('audio-player');
+    const prevButton = document.getElementById('prev-btn');
+    const nextButton = document.getElementById('next-btn');
+
+    const songs = ['music/song1.mp3', 'music/song2.mp3', 'music/song3.mp3']; // List of your songs
+    let currentSongIndex = 0;
+
+    function playSong(index) {
+      if (index >= 0 && index < songs.length) {
+        currentSongIndex = index;
+        audioPlayer.src = songs[currentSongIndex];
+        audioPlayer.play();
+      }
+    }
+
+    prevButton.addEventListener('click', () => {
+      playSong(currentSongIndex - 1);
+    });
+
+    nextButton.addEventListener('click', () => {
+      playSong(currentSongIndex + 1);
+    });
+
+    audioPlayer.addEventListener('ended', () => {
+      playSong(currentSongIndex + 1);
+
+      // Check if it's the last song, then loop back to the first song
+      if (currentSongIndex === songs.length - 1) {
+        currentSongIndex = 0;
+      }
+    });
+
+    playSong(currentSongIndex); // Play the first song by default
+  </script>
+</body>
+</html>
